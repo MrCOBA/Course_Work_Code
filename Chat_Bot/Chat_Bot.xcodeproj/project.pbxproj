@@ -7,9 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E20171A2246C3CB300264467 /* firstWelcomeScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20171A1246C3CB300264467 /* firstWelcomeScreenController.swift */; };
+		E20171A6246C43A100264467 /* secondWelcomeScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20171A5246C43A100264467 /* secondWelcomeScreenController.swift */; };
 		E206CC5823C0C42000C892ED /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E206CC5723C0C42000C892ED /* ChatMessageCell.swift */; };
+		E20C14AF246D7B0A00F715C6 /* startScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20C14AE246D7B0A00F715C6 /* startScreen.swift */; };
 		E236939424587ED000BEE5FA /* popWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236939324587ED000BEE5FA /* popWindowController.swift */; };
 		E264C9E923D9A8C20071FEEE /* HttpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E264C9E823D9A8C20071FEEE /* HttpManager.swift */; };
+		E283E7F2246D957B00B31826 /* createViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E283E7F1246D957B00B31826 /* createViewController.swift */; };
+		E283E7F4246DA35F00B31826 /* menuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E283E7F3246DA35F00B31826 /* menuViewController.swift */; };
 		E2BABF6924571E2C00E6EF07 /* EditScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BABF6824571E2C00E6EF07 /* EditScreenController.swift */; };
 		E2F756C523BE744E005BE239 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F756C423BE744E005BE239 /* AppDelegate.swift */; };
 		E2F756C723BE744E005BE239 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F756C623BE744E005BE239 /* SceneDelegate.swift */; };
@@ -39,9 +44,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E20171A1246C3CB300264467 /* firstWelcomeScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = firstWelcomeScreenController.swift; sourceTree = "<group>"; };
+		E20171A5246C43A100264467 /* secondWelcomeScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = secondWelcomeScreenController.swift; sourceTree = "<group>"; };
 		E206CC5723C0C42000C892ED /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
+		E20C14AE246D7B0A00F715C6 /* startScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = startScreen.swift; sourceTree = "<group>"; };
 		E236939324587ED000BEE5FA /* popWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popWindowController.swift; sourceTree = "<group>"; };
 		E264C9E823D9A8C20071FEEE /* HttpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpManager.swift; sourceTree = "<group>"; };
+		E283E7F1246D957B00B31826 /* createViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createViewController.swift; sourceTree = "<group>"; };
+		E283E7F3246DA35F00B31826 /* menuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = menuViewController.swift; sourceTree = "<group>"; };
 		E2BABF6824571E2C00E6EF07 /* EditScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScreenController.swift; sourceTree = "<group>"; };
 		E2F756C123BE744E005BE239 /* NLTK Bot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NLTK Bot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F756C423BE744E005BE239 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -118,6 +128,11 @@
 				E206CC5723C0C42000C892ED /* ChatMessageCell.swift */,
 				E264C9E823D9A8C20071FEEE /* HttpManager.swift */,
 				E236939324587ED000BEE5FA /* popWindowController.swift */,
+				E20171A1246C3CB300264467 /* firstWelcomeScreenController.swift */,
+				E20171A5246C43A100264467 /* secondWelcomeScreenController.swift */,
+				E20C14AE246D7B0A00F715C6 /* startScreen.swift */,
+				E283E7F1246D957B00B31826 /* createViewController.swift */,
+				E283E7F3246DA35F00B31826 /* menuViewController.swift */,
 			);
 			path = Chat_Bot;
 			sourceTree = "<group>";
@@ -272,10 +287,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2F756C923BE744E005BE239 /* ViewController.swift in Sources */,
+				E20171A2246C3CB300264467 /* firstWelcomeScreenController.swift in Sources */,
 				E264C9E923D9A8C20071FEEE /* HttpManager.swift in Sources */,
+				E283E7F4246DA35F00B31826 /* menuViewController.swift in Sources */,
+				E283E7F2246D957B00B31826 /* createViewController.swift in Sources */,
 				E206CC5823C0C42000C892ED /* ChatMessageCell.swift in Sources */,
 				E236939424587ED000BEE5FA /* popWindowController.swift in Sources */,
 				E2F756C523BE744E005BE239 /* AppDelegate.swift in Sources */,
+				E20C14AF246D7B0A00F715C6 /* startScreen.swift in Sources */,
+				E20171A6246C43A100264467 /* secondWelcomeScreenController.swift in Sources */,
 				E2F756C723BE744E005BE239 /* SceneDelegate.swift in Sources */,
 				E2BABF6924571E2C00E6EF07 /* EditScreenController.swift in Sources */,
 			);
@@ -457,7 +477,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "HSE.Chat-Bot";
+				PRODUCT_BUNDLE_IDENTIFIER = "HSE-chatBot";
 				PRODUCT_NAME = "NLTK Bot";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -475,7 +495,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "HSE.Chat-Bot";
+				PRODUCT_BUNDLE_IDENTIFIER = "HSE-chatBot";
 				PRODUCT_NAME = "NLTK Bot";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

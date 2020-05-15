@@ -25,6 +25,7 @@ class popWindowController: UIViewController, UITextFieldDelegate{
     var PATH:String = "https://nltkbot.pythonanywhere.com/edit/"
     var ID:Int = 0
     var model:String = ""
+    var FLAG:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +57,12 @@ class popWindowController: UIViewController, UITextFieldDelegate{
         editModelWindow.layer.masksToBounds = true
     }
     @IBAction func quitWithCanseling(_ sender: Any) {
-        performSegue(withIdentifier: "finishEditing", sender: nil)
+        if FLAG{
+            performSegue(withIdentifier: "finishEditing1", sender: nil)
+        }
+        else{
+            performSegue(withIdentifier: "finishEditing2", sender: nil)
+        }
     }
     
     @IBAction func addNewContext(_ sender: Any) {
@@ -76,7 +82,7 @@ class popWindowController: UIViewController, UITextFieldDelegate{
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "finishEditing"{
+        if segue.identifier == "finishEditing1"{
             let destination = segue.destination as? EditScreenController
             destination!.ID = ID
         }

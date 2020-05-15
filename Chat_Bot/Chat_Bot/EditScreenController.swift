@@ -11,10 +11,9 @@ import UIKit
 
 class EditScreenController: UIViewController,  UIPickerViewDelegate, UIPickerViewDataSource{
     
-    @IBOutlet weak var newModelField: UITextField!
+    @IBOutlet weak var smartModeButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
-    @IBOutlet weak var newModelButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var modelPicker: UIPickerView!
     
@@ -27,8 +26,6 @@ class EditScreenController: UIViewController,  UIPickerViewDelegate, UIPickerVie
     override func viewDidLoad() {
         super.viewDidLoad()
         self.overrideUserInterfaceStyle = .light
-        let gestureView = UITapGestureRecognizer(target: self, action: #selector (self.viewTapped(_:)))
-        self.view.addGestureRecognizer(gestureView)
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
           switch action.style{
@@ -59,10 +56,10 @@ class EditScreenController: UIViewController,  UIPickerViewDelegate, UIPickerVie
         }}))
         modelPicker.delegate = self
         modelPicker.dataSource = self
-        newModelButton.layer.cornerRadius = 12
         backButton.layer.cornerRadius = 12
         editButton.layer.cornerRadius = 12
         saveButton.layer.cornerRadius = 12
+        smartModeButton.layer.cornerRadius = 12
         let request:String = "https://nltkbot.pythonanywhere.com/update"
         getJSON(httpRequest: request);
     }
@@ -70,33 +67,12 @@ class EditScreenController: UIViewController,  UIPickerViewDelegate, UIPickerVie
         performSegue(withIdentifier: "back", sender: nil)
     }
     
-    @IBAction func createNewModel(_ sender: Any) {
-        if !newModelField.text!.isEmpty{
-            let request:String = "https://nltkbot.pythonanywhere.com/update"
-            getJSON(httpRequest: request);
-            var flag:Bool = true
-            for dataset in id2dataset{
-                let index = dataset.firstIndex(of: ".") ?? dataset.endIndex
-                let ind_name = dataset[..<index]
-                let name = String(ind_name)
-                if name == newModelField.text!{
-                    alert.title = "Error"
-                    alert.message = "This name already exists!"
-                    self.present(alert, animated: true, completion: nil)
-                    flag = false
-                    break
-                }
-            }
-            if flag && checkName(name: newModelField.text!){
-                let request:String = "https://nltkbot.pythonanywhere.com/create/\(newModelField.text!).xlsx"
-                addModelJSON(httpRequest: request)
-            }
-        }
-        else{
-            alert.title = "Error"
-            alert.message = "Fill model name gap!"
-            self.present(alert, animated: true, completion: nil)
-        }
+    @IBAction func backSwipe(_ sender: Any) {
+        performSegue(withIdentifier: "back", sender: nil)
+    }
+    
+    @IBAction func saveSwipe(_ sender: Any) {
+        performSegue(withIdentifier: "goToChat", sender: nil)
     }
     
     @IBAction func editModel(_ sender: Any) {
@@ -105,6 +81,10 @@ class EditScreenController: UIViewController,  UIPickerViewDelegate, UIPickerVie
     
     @IBAction func saveChanges(_ sender: Any) {
         performSegue(withIdentifier: "goToChat", sender: nil)
+    }
+    
+    @IBAction func useSmartMode(_ sender: Any) {
+        performSegue(withIdentifier: "turnOnSmart", sender: nil)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -124,40 +104,20 @@ class EditScreenController: UIViewController,  UIPickerViewDelegate, UIPickerVie
             let destination = segue.destination as? popWindowController
             destination!.ID = modelPicker.selectedRow(inComponent: 0)
             destination!.model = id2dataset[modelPicker.selectedRow(inComponent: 0)]
+            destination!.FLAG = true
         }
         else if segue.identifier == "goToChat"{
             let destination = segue.destination as? ViewController
             destination!.ID = modelPicker.selectedRow(inComponent: 0)
         }
         else if segue.identifier == "back"{
-            let destination = segue.destination as? ViewController
+            let destination = segue.destination as? menuViewController
             destination!.ID = ID
         }
-    }
-    
-    func checkName(name: String) -> Bool{
-        var flag:Bool = true
-        for char in name{
-            if char >= "a" &&  char <= "z" || char >= "A" &&  char <= "Z"{
-                continue
-            }
-            else if char >= "0" &&  char <= "9"{
-                continue
-            }
-            else if char == "_" || char == "@"{
-                continue
-            }
-            else{
-                flag = false
-                break
-            }
+        else if segue.identifier == "turnOnSmart"{
+            let destination = segue.destination as? ViewController
+            destination!.isSMART = true
         }
-        if !flag{
-            alert.title = "Error"
-            alert.message = "Name have wrong symbols!"
-            self.present(alert, animated: true, completion: nil)
-        }
-        return flag
     }
     
     func getJSON(httpRequest: String){
@@ -182,35 +142,9 @@ class EditScreenController: UIViewController,  UIPickerViewDelegate, UIPickerVie
                 }
                 self!.modelPicker.reloadComponent(0)
                 self!.modelPicker.selectRow(self!.ID, inComponent: 0, animated:true)
-                self!.newModelField.resignFirstResponder();
-                self!.newModelField.text! = ""
             }catch{
                 print("Can't serialize data.");
             }
         }
-    }
-    
-    func addModelJSON(httpRequest: String){
-        let http: HTTPManager = HTTPManager();
-        
-        let url: URL = URL(string: httpRequest)!;
-        
-        http.retrieveURL(url){
-            [weak self] (data) -> Void in
-            guard let json = String(data: data, encoding: String.Encoding.utf8) else {return}
-            print("JSON: ", json);
-            self!.alert.title = "Successful"
-            self!.alert.message = "New model was created!"
-            self!.present(self!.alert, animated: true, completion: nil)
-        }
-    }
-    
-    @objc func viewTapped(_ sender: UITapGestureRecognizer? = nil){
-        newModelField.resignFirstResponder();
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        newModelField.resignFirstResponder();
-        return true;
     }
 }

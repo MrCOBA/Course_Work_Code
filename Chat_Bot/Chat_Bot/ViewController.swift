@@ -15,8 +15,6 @@ struct ChatMessage{
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
-    
-    @IBOutlet weak var modeSwitcher: UISwitch!
     @IBOutlet weak var messageTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var dockViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTableView: UITableView!
@@ -27,6 +25,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     fileprivate let cellId = "messageCell"
     var ID: Int = 0
     var PATH: String = ""
+    var isSMART: Bool = false
     
     var messagesArray:[ChatMessage] = [ChatMessage]();
     override func viewDidLoad() {
@@ -35,7 +34,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         navigationItem.title = "Messages"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        if self.modeSwitcher.isOn{
+        if isSMART{
             PATH = "https://nltkbot.pythonanywhere.com/getNLPanswer/"
         }
         else{
@@ -55,20 +54,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector (self.tableViewTapped(_:)));
         self.messageTableView.addGestureRecognizer(tapGesture);
-        self.messagesArray.append(ChatMessage(text: "Hello, I am smart bot and I want to talk with you! Let's do this!", isIncoming: true));
+        if isSMART{
+            self.messagesArray.append(ChatMessage(text: "Hello, I am RNN based smart bot!", isIncoming: true));
+            messageTableView.reloadData();
+            scrollToBottom();
+        }
+        else{
+            let request = "https://nltkbot.pythonanywhere.com/get/\(ID)"
+            getFirstJSON(httpRequest: request)
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning();
-    }
-    
-    @IBAction func modeSwitched(_ sender: Any) {
-        if self.modeSwitcher.isOn{
-            PATH = "https://nltkbot.pythonanywhere.com/getNLPanswer/"
-        }
-        else{
-            PATH = "https://nltkbot.pythonanywhere.com/getanswer/"
-        }
     }
     
     @IBAction func editModel(_ sender: Any) {
@@ -89,13 +88,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         Message = Message.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)!
         //Message = Message.replacingOccurrences(of: " ", with: "%20")
         self.messageTextField.endEditing(true);
-        let request:String = PATH + Message + (self.modeSwitcher.isOn ? "" : "/" + String(ID))
+        let request:String = PATH + Message + (isSMART ? "" : "/" + String(ID))
         getJSON(httpRequest: request);
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "startEditing"{
-            let destination = segue.destination as? EditScreenController
+            let destination = segue.destination as? menuViewController
             destination!.ID = ID
         }
     }
@@ -151,10 +150,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    
-    
-    
-    
     //Server connection
     
     func getJSON(httpRequest: String){
@@ -175,6 +170,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         return;
                 }
                 self!.messagesArray.append(ChatMessage(text: answer, isIncoming: true))
+                self!.messageTableView.reloadData();
+                self!.scrollToBottom();
+            }catch{
+                print("Can't serialize data.");
+            }
+        }
+    }
+    
+    func getFirstJSON(httpRequest: String){
+        let http: HTTPManager = HTTPManager();
+        
+        let url: URL = URL(string: httpRequest)!;
+        
+        http.retrieveURL(url){
+            [weak self] (data) -> Void in
+            guard let json = String(data: data, encoding: String.Encoding.utf8) else {return}
+            print("JSON: ", json);
+            
+            do{
+                let jsonObjectAny: Any = try JSONSerialization.jsonObject(with: data, options: []);
+                guard
+                    let jsonObject = jsonObjectAny as? [String: Any],
+                    let answer = jsonObject["dataset"] as? String else{
+                        return;
+                }
+                self!.messagesArray.append(ChatMessage(text: "Hello, I am NLTK based bot. Model: " + answer, isIncoming: true))
                 self!.messageTableView.reloadData();
                 self!.scrollToBottom();
             }catch{

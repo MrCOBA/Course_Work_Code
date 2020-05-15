@@ -16,8 +16,8 @@ class ChatMessageCell: UITableViewCell {
     var leadingConstraint: NSLayoutConstraint!;
     var isIncoming: Bool! {
         didSet{
-            bubbleBackgroundView.backgroundColor = isIncoming ? .white : .systemGreen;
-            messageLabel.textColor = isIncoming ? .black : .white;
+            bubbleBackgroundView.backgroundColor = isIncoming ? .white : #colorLiteral(red: 1, green: 0.7631818652, blue: 0.1203384772, alpha: 1);
+            messageLabel.textColor = isIncoming ? .black : .black;
             leadingConstraint.isActive = isIncoming;
             trailingConstraint.isActive = !isIncoming;
         }
