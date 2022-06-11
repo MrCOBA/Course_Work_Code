@@ -1,4 +1,4 @@
-# Course_Work_Code
+# NLTKChatBotMaker
 There is all about my NLTK Bot course work!
 We have server backend, which was wrote on Python.
 https:\\nltkbot.pythonanywhere.com\ - our server
